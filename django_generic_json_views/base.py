@@ -25,7 +25,6 @@ class JsonResponseMixin:
     encoder = DjangoJSONEncoder
     safe = True
     json_dumps_params = None
-    content_type = 'application/json'
 
     def purge_context(self, context):
         if 'view' in context:
