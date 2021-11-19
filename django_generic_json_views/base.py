@@ -24,6 +24,8 @@ class JsonView(View):
 class JsonResponseMixin:
     encoder = DjangoJSONEncoder
     safe = True
+    content_type = 'application/json'
+    response_class = JsonResponse
     json_dumps_params = None
 
     def purge_context(self, context):
@@ -39,7 +41,7 @@ class JsonResponseMixin:
         response_kwargs.setdefault('content_type', self.content_type)
         context = self.purge_context(context)
 
-        return JsonResponse(
+        return self.response_class(
             data={key: (serialize('json', [value]) if isinstance(value, Model) else serialize('json', value) if isinstance(value, QuerySet) else value) for key, value in context.items()},
             encoder=self.encoder,
             safe=self.safe,
