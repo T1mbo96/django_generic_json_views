@@ -40,7 +40,7 @@ class JsonResponseMixin:
         response_kwargs.setdefault('content_type', self.content_type)
         context = self.purge_context(context)
 
-        return self.JsonResponse(
+        return JsonResponse(
             data={key: (serialize('json', [value]) if isinstance(value, Model) else serialize('json', value) if isinstance(value, QuerySet) else value) for key, value in context.items()},
             encoder=self.encoder,
             safe=self.safe,
